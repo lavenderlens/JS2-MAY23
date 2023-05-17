@@ -1,0 +1,50 @@
+We have seen in JS1 how we may create MTML elements in vanilla JS.
+
+In fact, should we wish, we can create an entire web page or site in JS.
+
+This is not a silly as it may sound, for frontend frameworks and librraies like Angular, React and Vue do This
+
+Node.js enables us to have a development environment that runs JS outside of the browser
+
+We need two or three tools to create an app entirely in JS
+
+We don't have to have either of these, but if we didn't we would spend a long time managing our dependencies manually
+
+They are:
+
+    1. Package managers
+    2. Bundlers
+    3. Transpilers
+
+A package manager deals with the Node modules required for development.
+
+It will install a basic set, and others by demand. 
+
+All dependencies will be managed from a file called package.json. Hence the term "managed app".
+
+Package managers include npm and Yarn - npm Node Package Manager and comes with an install fof Node.
+
+Bundlers are concerned with production code. 
+
+They take the Node modules and peform "tree-shaking" (only the ripe fruit will fall)
+
+This bundles JUST the JS the app needs, in ONE file.
+
+Also: CSS and assets (images etc).
+
+So a managed web app development environment may be 200Mb size on disk
+
+The bundled, tree-shaken version could be as little as <50k. 
+
+Bundlers include Webpack (industry standard, ships as part of other tools like create-react-app ), 
+and Parcel (we will use, as has much less config).
+
+Transpilers, such as Babel, take ES6 or later code and compile or transpile it into code that is backwards-compatible, ES5 or older.
+
+This is machine but not human-readable. 
+
+We will build an app that gets weather forecasts from an API
+
+It uses Node, npm, and Parcel (Babel comes with Parcel and / or Webpack) 
+
+- Parcel has much lighter config when it comes to CSS and images.

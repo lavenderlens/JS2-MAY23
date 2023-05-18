@@ -48,3 +48,29 @@ We will build an app that gets weather forecasts from an API
 It uses Node, npm, and Parcel (Babel comes with Parcel and / or Webpack) 
 
 - Parcel has much lighter config when it comes to CSS and images.
+
+STAGE 1
+
+scaffolded a managed web app with Parcel
+used live API call for weather data to the console
+
+STAGE 2
+
+get weather data to the must be done in async callback
+
+    - componentise elements as functions
+    - generic function for element creation
+        - what is in an HTML element?
+        - type
+        - innerText (only if we can't spec children)
+        - innerHTML (children)
+        - attributes
+        - so args would be "type", "innerText", {attributes}, [children]
+
+    - Tailwind as CDN and later as dependency
+    - testCallback component
+    - WeatherTable component
+    - index.js still has data fetching and a ton of stuff in
+
+    - eyes on no. of api calls and mock with json-server if necessary 
+    - copy weather object from console

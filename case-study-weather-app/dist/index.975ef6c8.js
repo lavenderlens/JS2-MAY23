@@ -560,21 +560,32 @@ function hmrAccept(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
+var _functions = require("./components/functions");
+var _weatherTable = require("./components/WeatherTable");
+var _weatherTableDefault = parcelHelpers.interopDefault(_weatherTable);
 console.log("index.js loaded");
-// const axios = require("axios");
-//async call to axios
-//you have the async work in the callback to the async function
-(0, _axiosDefault.default).get(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.0015}&exclude=minutely,hourly&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>console.log(response.data.daily));
+(0, _axiosDefault.default).get(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.0015}&exclude=minutely,hourly&units=metric&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>console.log(response.data.daily));
 // without axios (Native fetch, only in Node 18>)
-fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.0015}&exclude=minutely,hourly&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>response.json()).then((json)=>console.log(json.daily));
-const h1 = document.createElement("h1");
-h1.innerHTML = "The Weather App stage 1";
-document.body.appendChild(h1);
-const p = document.createElement("p");
-p.innerHTML = "You really think you can fly that thing? Hey, you know how I'm, like, always trying to save the planet? Here's my chance. I was part of something special. Must go faster. What do they got in there? King Kong? Must go faster... go, go, go, go, go! You're a very talented young man, with your own clever thoughts and ideas. Do you need a manager?";
-document.body.appendChild(p);
+fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.0015}&exclude=minutely,hourly&units=metric&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>response.json()).then((weather)=>document.body.appendChild((0, _weatherTableDefault.default)(weather)));
+// .then((json) => console.log(json.daily));
+// .then(
+//   (json) => (DOMContent.innerHTML = json.daily[0].weather[0].description)
+// );
+// .then((json) => logMultipleLevelsOfData(json)); // we can pass in any callback here
+// as long as it is in the PROMISE CHAIN
+// so let's design a table to display the weather - the bits we want
+// $ = (type, text, attributes = {}, children = [])
+document.body.appendChild((0, _functions.H1)("The Weather App stage 1"));
+document.body.appendChild((0, _functions.Para)("You really think you can fly that thing? Hey, you know how I'm, like, always trying to save the planet? Here's my chance. I was part of something special. Must go faster. What do they got in there? King Kong? Must go faster... go, go, go, go, go! You're a very talented young man, with your own clever thoughts and ideas. Do you need a manager?"));
+let DOMContent = document.createElement("p");
+document.body.appendChild(DOMContent);
+function logMultipleLevelsOfData(data) {
+    console.log(data);
+    console.log(data.current.weather[0].main);
+    console.log(data.daily[0].weather[0].description);
+}
 
-},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"jo6P5":[function(require,module,exports) {
+},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/functions":"412qj","./components/WeatherTable":"6NyDF"}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _axiosJsDefault.default));
@@ -4732,6 +4743,89 @@ Object.entries(HttpStatusCode).forEach(([key, value])=>{
     HttpStatusCode[value] = key;
 });
 exports.default = HttpStatusCode;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"412qj":[function(require,module,exports) {
+/**
+ *
+ * functions exported as named exports - have to be imported in {}
+ * you can have as many exports per file as you like
+ * try to keep functions pure
+ */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "H1", ()=>H1);
+parcelHelpers.export(exports, "Para", ()=>Para);
+const H1 = (text)=>{
+    const h1 = document.createElement("h1");
+    h1.innerHTML = text;
+    h1.setAttribute("class", "text-2xl font-semibold text-blue-800 animate-pulse my-2");
+    document.body.appendChild(h1);
+    return h1;
+};
+const Para = (text)=>{
+    const p = document.createElement("p");
+    p.innerHTML = text;
+    document.body.appendChild(p);
+    return p;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6NyDF":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _ = require("./$");
+var _Default = parcelHelpers.interopDefault(_);
+const tableStyles = "";
+const rowStyles = "";
+// helper function to show day of week
+const calcDay = (weather, i)=>{
+    // this function gets the day of the week from the timestamp in the data
+    // have to add in a &units=metric param to the API call
+    return Intl.DateTimeFormat("en-GB", {
+        weekday: "long"
+    }).format(new Date(weather.daily[i].dt * 1000));
+};
+const WeatherTable = (weather)=>{
+    let table = (0, _Default.default)("table", null);
+    let thead = (0, _Default.default)("thead", null);
+    let tbody = (0, _Default.default)("tbody", null);
+    let tr1 = (0, _Default.default)("tr", null);
+    let tr2 = (0, _Default.default)("tr", null);
+    // table header row
+    tr1.appendChild((0, _Default.default)("th", `${calcDay(weather, 1)}`));
+    tr1.appendChild((0, _Default.default)("th", `${calcDay(weather, 2)}`));
+    tr1.appendChild((0, _Default.default)("th", `${calcDay(weather, 3)}`));
+    tr1.appendChild((0, _Default.default)("th", `${calcDay(weather, 4)}`));
+    tr1.appendChild((0, _Default.default)("th", `${calcDay(weather, 5)}`));
+    //table body row
+    tr2.appendChild((0, _Default.default)("td", `${weather.daily[1].weather[0].description}`));
+    tr2.appendChild((0, _Default.default)("td", `${weather.daily[2].weather[0].description}`));
+    tr2.appendChild((0, _Default.default)("td", `${weather.daily[3].weather[0].description}`));
+    tr2.appendChild((0, _Default.default)("td", `${weather.daily[4].weather[0].description}`));
+    tr2.appendChild((0, _Default.default)("td", `${weather.daily[5].weather[0].description}`));
+    // put the whole table together
+    thead.appendChild(tr1);
+    tbody.appendChild(tr2);
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    return table;
+};
+exports.default = WeatherTable;
+
+},{"./$":"kKekq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kKekq":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const $ = (type, text, attributes = {}, children = [])=>{
+    //ES6 default arguments
+    const el = document.createElement(type); //valid HTML element names
+    if (text !== null) el.innerText = text;
+    // ES6 array destructuring
+    for (const [key, value] of Object.entries(attributes))el.setAttribute(key, value);
+    for (let child of children)el.appendChild(child);
+    return el;
+};
+// default exports do not need wrapping in curlies when imported
+// there can only be one per file
+// see modules ES6 for live bindings
+exports.default = $;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jC2qd","8lqZg"], "8lqZg", "parcelRequire6d1a")
 

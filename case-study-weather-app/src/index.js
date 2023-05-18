@@ -25,7 +25,7 @@ fetch(
 
 // $ = (type, text, attributes = {}, children = [])
 
-document.body.appendChild(H1("The Weather App stage 1"));
+document.body.appendChild(H1("The Weather App stage 2"));
 document.body.appendChild(
   Para(
     "You really think you can fly that thing? Hey, you know how I'm, like, always trying to save the planet? Here's my chance. I was part of something special. Must go faster. What do they got in there? King Kong? Must go faster... go, go, go, go, go! You're a very talented young man, with your own clever thoughts and ideas. Do you need a manager?"

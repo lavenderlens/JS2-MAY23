@@ -575,7 +575,7 @@ fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.00
 // as long as it is in the PROMISE CHAIN
 // so let's design a table to display the weather - the bits we want
 // $ = (type, text, attributes = {}, children = [])
-document.body.appendChild((0, _functions.H1)("The Weather App stage 1"));
+document.body.appendChild((0, _functions.H1)("The Weather App stage 2"));
 document.body.appendChild((0, _functions.Para)("You really think you can fly that thing? Hey, you know how I'm, like, always trying to save the planet? Here's my chance. I was part of something special. Must go faster. What do they got in there? King Kong? Must go faster... go, go, go, go, go! You're a very talented young man, with your own clever thoughts and ideas. Do you need a manager?"));
 let DOMContent = document.createElement("p");
 document.body.appendChild(DOMContent);
@@ -4773,8 +4773,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _ = require("./$");
 var _Default = parcelHelpers.interopDefault(_);
-const tableStyles = "";
-const rowStyles = "";
+const tableStyles = "w-full text-sm text-left text-gray-900 dark:text-gray-400 border-collapse";
+const rowStyles = "bg-white border-b dark:bg-gray-800 dark:border-gray-700";
 // helper function to show day of week
 const calcDay = (weather, i)=>{
     // this function gets the day of the week from the timestamp in the data
@@ -4784,10 +4784,14 @@ const calcDay = (weather, i)=>{
     }).format(new Date(weather.daily[i].dt * 1000));
 };
 const WeatherTable = (weather)=>{
-    let table = (0, _Default.default)("table", null);
+    let table = (0, _Default.default)("table", null, {
+        class: tableStyles
+    }); //added table styles
     let thead = (0, _Default.default)("thead", null);
     let tbody = (0, _Default.default)("tbody", null);
-    let tr1 = (0, _Default.default)("tr", null);
+    let tr1 = (0, _Default.default)("tr", null, {
+        class: rowStyles
+    }); //added row styles
     let tr2 = (0, _Default.default)("tr", null);
     // table header row
     tr1.appendChild((0, _Default.default)("th", `${calcDay(weather, 1)}`));

@@ -1,7 +1,9 @@
 import $ from "./$";
 
-const tableStyles = "";
-const rowStyles = "";
+const tableStyles =
+  "w-full text-sm text-left text-gray-900 dark:text-gray-400 border-collapse";
+
+const rowStyles = "bg-white border-b dark:bg-gray-800 dark:border-gray-700";
 
 // helper function to show day of week
 const calcDay = (weather, i) => {
@@ -13,10 +15,10 @@ const calcDay = (weather, i) => {
 };
 
 const WeatherTable = (weather) => {
-  let table = $("table", null);
+  let table = $("table", null, { class: tableStyles }); //added table styles
   let thead = $("thead", null);
   let tbody = $("tbody", null);
-  let tr1 = $("tr", null);
+  let tr1 = $("tr", null, { class: rowStyles }); //added row styles
   let tr2 = $("tr", null);
 
   // table header row

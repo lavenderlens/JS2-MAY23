@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRAY-ITERATOR-EXERCISE</title>
+</head>
+<body>
+    <h1>Array Iterator</h1>
+    <button id="nextButton">Next</button>
+    <div id="productDiv"></div>
+
+    <script>
+        function Product(desc, price){
+            this.desc = desc;
+            this.price = price;
+        }
+        // TODO: render a product in the DOM
+        Product.prototype.render = function(parent){
+            var span = document.createElement('span');
+            span.innerHTML = this.desc + ": £" + this.price;
+            parent.innerHTML = "";// cleanup
+            parent.appendChild(span);//adds new span to page
+        };
+
+        var products = [
+            new Product('Recipe Book', 45),
+            new Product('Eyeglasse readers', 22),
+            new Product('Cleaning solution', 2.50),
+            new Product('COVID tests pack of 7', 0.00),
+            new Product('Music CD', 9.99),
+        ]
+
+        var productsIterator = products.entries();
+        // Array.prototype.entries() returns an Iterator object
+        // the object has a method next()
+        // and a prop done (false) and a prop value
+        // if we assign the return value of entries to a reference
+        // we may call this with the .next() method
+        // it will step through the array one step at a time
+        // done will change to true when we reach the end
+
+        var nextButton = document.querySelector('#nextButton');
+        nextButton.addEventListener('click', function(event){
+            var productDiv = document.querySelector('#productDiv');
+            var entry = productsIterator.next();
+            if(!entry.done){
+                var product = entry.value[1];
+                product.render(productDiv);
+            } else {
+                productsIterator = products.entries();
+                // advances to start again
+                nextButton.click();
+            }
+        })
+
+
+
+    </script>
+</body>
+</html>

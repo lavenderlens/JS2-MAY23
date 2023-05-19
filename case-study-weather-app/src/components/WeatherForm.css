@@ -1,0 +1,17 @@
+input,
+label,
+button {
+  margin: 1em 0em 0em 1em;
+  display: block;
+}
+button {
+  padding: 0.5em 2em;
+}
+input {
+  background-color: rgb(215, 225, 245);
+  border: 1px solid darkblue;
+}
+th {
+  width: 20vw;
+  /* keeps cells evenly spaced */
+}

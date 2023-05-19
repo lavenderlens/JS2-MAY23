@@ -563,29 +563,40 @@ var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _functions = require("./components/functions");
 var _weatherTable = require("./components/WeatherTable");
 var _weatherTableDefault = parcelHelpers.interopDefault(_weatherTable);
+var _weatherForm = require("./components/WeatherForm");
+var _weatherFormDefault = parcelHelpers.interopDefault(_weatherForm);
+var _weatherService = require("./components/WeatherService");
+var _weatherServiceDefault = parcelHelpers.interopDefault(_weatherService);
+var _ = require("./components/$");
+var _Default = parcelHelpers.interopDefault(_);
 console.log("index.js loaded");
-(0, _axiosDefault.default).get(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.0015}&exclude=minutely,hourly&units=metric&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>console.log(response.data.daily));
-// without axios (Native fetch, only in Node 18>)
-fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.0015}&exclude=minutely,hourly&units=metric&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>response.json()).then((weather)=>document.body.appendChild((0, _weatherTableDefault.default)(weather)));
-// .then((json) => console.log(json.daily));
-// .then(
-//   (json) => (DOMContent.innerHTML = json.daily[0].weather[0].description)
-// );
-// .then((json) => logMultipleLevelsOfData(json)); // we can pass in any callback here
-// as long as it is in the PROMISE CHAIN
-// so let's design a table to display the weather - the bits we want
-// $ = (type, text, attributes = {}, children = [])
-document.body.appendChild((0, _functions.H1)("The Weather App stage 2"));
-document.body.appendChild((0, _functions.Para)("You really think you can fly that thing? Hey, you know how I'm, like, always trying to save the planet? Here's my chance. I was part of something special. Must go faster. What do they got in there? King Kong? Must go faster... go, go, go, go, go! You're a very talented young man, with your own clever thoughts and ideas. Do you need a manager?"));
-let DOMContent = document.createElement("p");
-document.body.appendChild(DOMContent);
-function logMultipleLevelsOfData(data) {
-    console.log(data);
-    console.log(data.current.weather[0].main);
-    console.log(data.daily[0].weather[0].description);
-}
+(0, _axiosDefault.default //this only populates the console
+).get(`https://api.openweathermap.org/data/3.0/onecall?lat=${51.478}&lon=${-0.0015}&exclude=minutely,hourly&units=metric&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>console.log(response.data.daily));
+/**
+ *
+ * architecture of app now does this:
+ * renders Form
+ * takes coords from user via Form
+ * passes them and a callback to Service
+ * Service callback renders Table
+ * only smart component is Service
+ * Form component just takes input from user
+ * Table component just renders whatever data is supplied to it as props
+ *
+ */ document.body.appendChild((0, _functions.H1)("The Weather App stage 3"));
+document.body.appendChild((0, _weatherFormDefault.default)());
+let lat = document.querySelector("#lat");
+let lon = document.querySelector("#lon");
+document.querySelector("#find-weather-button").addEventListener("click", ()=>{
+    (0, _weatherServiceDefault.default)(Number(lat.value), Number(lon.value), (0, _weatherForm.display5Days));
+    document.querySelector("#find-weather-button").innerHTML = "GET ANOTHER FORECAST";
+});
+document.body.appendChild((0, _functions.Para)("5-day forecast"));
+const main = document.createElement("main");
+document.body.appendChild(main);
+main.appendChild((0, _Default.default)("p", " \nEnter different coordinates above for another area forecast."));
 
-},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/functions":"412qj","./components/WeatherTable":"6NyDF"}],"jo6P5":[function(require,module,exports) {
+},{"axios":"jo6P5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./components/functions":"412qj","./components/WeatherTable":"6NyDF","./components/WeatherForm":"b1x1o","./components/WeatherService":"2PcLz","./components/$":"kKekq"}],"jo6P5":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>(0, _axiosJsDefault.default));
@@ -4830,6 +4841,69 @@ const $ = (type, text, attributes = {}, children = [])=>{
 // there can only be one per file
 // see modules ES6 for live bindings
 exports.default = $;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"b1x1o":[function(require,module,exports) {
+//imports TODO
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "display5Days", ()=>display5Days);
+var _ = require("./$");
+var _Default = parcelHelpers.interopDefault(_);
+var _weatherTable = require("./WeatherTable");
+var _weatherTableDefault = parcelHelpers.interopDefault(_weatherTable);
+var _weatherFormCss = require("./WeatherForm.css");
+const display5Days = (data)=>{
+    const main = document.querySelector("main");
+    main.replaceChild((0, _weatherTableDefault.default)(data), main.children[0]);
+};
+//WeatherForm function
+const WeatherForm = ()=>{
+    const fieldset = document.createElement("fieldset");
+    const legend = document.createElement("legend");
+    legend.innerText = "Currently showing coordinates for your location.";
+    legend.setAttribute("id", "loading");
+    fieldset.appendChild(legend);
+    let labelGroupLat = (0, _Default.default)("label", "LATitude (-90 to 90):", {
+        id: "latLable",
+        for: "lat"
+    }, [
+        (0, _Default.default)("input", null, {
+            type: "number",
+            id: "lat",
+            placeholder: "must not be blank",
+            autofocus: true
+        })
+    ]);
+    fieldset.appendChild(labelGroupLat);
+    let labelGroupLon = (0, _Default.default)("label", "LONgitude (-180 to 180):", {
+        id: "lonLable",
+        for: "lon"
+    }, [
+        (0, _Default.default)("input", null, {
+            type: "number",
+            id: "lon",
+            placeholder: "must not be blank"
+        })
+    ]);
+    fieldset.appendChild(labelGroupLon);
+    let searchButton = (0, _Default.default)("button", "GET FORECAST", {
+        type: "button",
+        id: "find-weather-button",
+        class: "font-semibold bg-blue-800 text-white animate-pulse"
+    }, []);
+    fieldset.appendChild(searchButton);
+    return fieldset;
+};
+exports.default = WeatherForm;
+
+},{"./$":"kKekq","./WeatherTable":"6NyDF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./WeatherForm.css":"honHS"}],"honHS":[function() {},{}],"2PcLz":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+const WeatherService = (lat, lon, asyncCallback)=>{
+    // no return but async Fetch call here
+    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly&units=metric&appid=d7fe376f36acedb2a2eebe9c90a2a8fb`).then((response)=>response.json()).then((weather)=>asyncCallback(weather));
+};
+exports.default = WeatherService;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["jC2qd","8lqZg"], "8lqZg", "parcelRequire6d1a")
 

@@ -45,6 +45,10 @@ console.log(oddNums);
  * filter(s) first - reduce size of dataset
  * map(s) next
  * reduce finally to flattened single value
+ *
+ * There is a use case for carrying out map first:
+ * if values produced by map affect predicate criteria for filter
+ * eg map(()=> price + VAT).filter(()=> price < 100)
  */
 
 const sumOfOddNumsSquared = array

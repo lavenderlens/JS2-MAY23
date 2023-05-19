@@ -1,0 +1,28 @@
+Arrays-
+
+    - for loop
+    - for of 
+    - forEach (skips empty elements)
+
+    - for in (returns keys)
+    - Object.keys() - same as above
+    - Object.values() 
+    - Object.entries() - 2D array
+    - functional arrays to come this morning
+
+Scope-
+
+    - the scope chain from child to parent to grandparent etc
+    - hoisting (only occurs with var so hardly ever see it)
+    - block-scoped let and const (review)
+    - closures - lexically-scoped variable(s) and a returned functional
+        - this is the underlying mechanism for giving functions state
+        - exploited in React hooks
+    - different contexts of "this"
+        - bind()
+        - IIFE
+        - arrow function
+            - arrow functions DO NOT HAVE a context of "this"
+            - which makes them suited to use where the parent context is desired
+
+ES6 - various, to be continued

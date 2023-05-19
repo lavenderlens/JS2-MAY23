@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASYNC-3</title>
+  </head>
+  <body>
+    <h1>Async 4</h1>
+    <h2>Async-Await</h2>
+    <h3>Most modern developers' choice</h3>
+
+    <main id="api-data"></main>
+    <script>
+      // some folk just don't like Promises
+      // most folk want to write sync-style code
+      // async-await is a means of writing async code in a sync style
+      // one "advantage" is you can use conventional try/catch error handling
+
+      // even tho async functions return values they are themselves promises
+      // async-await is a wrapper, if you like, for Fetch and Promises
+      async function myAsyncFunction() {
+        return "Hello";
+      }
+      console.log(myAsyncFunction());
+
+      async function fetchData() {
+        // wait for fetch to complete then assign the return value to response
+        // the interpreter is not actually witing
+        // JS is non-blocking (unless it's a while loop!)
+        try {
+          const response = await fetch("http://localhost:3000/weather");
+          const data = await response.json();
+          document.querySelector("#api-data").innerHTML =
+            data[0].weather[0].description;
+        } catch (error) {
+          console.log(error); //no callback just direct
+        }
+      }
+      fetchData();
+      // not so simple as native fetch, right?
+    </script>
+  </body>
+</html>

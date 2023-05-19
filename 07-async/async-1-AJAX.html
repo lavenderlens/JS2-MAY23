@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASYNC-1</title>
+  </head>
+  <body>
+    <h1>Async 1</h1>
+    <h2>AJAX</h2>
+
+    <main id="api-data"></main>
+    <script>
+      // AJAX - asynchronous JS and XML is the traditional mechanism for making async requests
+
+      // well-formed functions should have both success and failure callbacks
+      // the callbacks determine what happens next
+
+      // this function makes the request and reads the response
+      function getApiData(successCallback, failureCallback) {
+        // 1. make the request
+        const request = new XMLHttpRequest();
+
+        // 3. handle the data returned from the request
+        request.onload = () => {
+          if (request.status == 200 && request.readyState == 4) {
+            successCallback(JSON.parse(request.response));
+          }
+        };
+
+        // 2. send request
+        // failure callback
+        request.onerror = () => failureCallback("Something went wrong");
+        request.open("GET", "http://localhost:3000/weather/1000/");
+        request.send();
+      }
+      // when we use this function we specify what to do with the data
+      getApiData(
+        //success
+        (data) => {
+          console.log(data);
+          document.querySelector("#api-data").innerHTML =
+            data[0].weather[0].description;
+        },
+        // failure
+        (error) => {
+          // document.querySelector("#api-data").innerHTML =
+          //   "Data could not be loaded";
+          console.log(error);
+        }
+      );
+    </script>
+  </body>
+</html>

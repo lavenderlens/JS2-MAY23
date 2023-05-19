@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASYNC-2</title>
+  </head>
+  <body>
+    <h1>Async 2</h1>
+    <h2>Promises</h2>
+
+    <main id="api-data"></main>
+    <script>
+      // AJAX - asynchronous JS and XML is the traditional mechanism for making async requests
+
+      // the problem with trad AJAX is that chaining async tasks is painful
+      // Promises were seen a sthe solution to this problem
+      // a Promise wraps some async work in a Promise object
+      // A Promise always returns... another Promise!
+
+      const promise = new Promise(function (successCallback, failureCallback) {
+        const request = new XMLHttpRequest();
+        request.onload = () => {
+          if (request.status == 200 && request.readyState == 4) {
+            successCallback(JSON.parse(request.response));
+          }
+        };
+        request.onerror = () => failureCallback("Something went wrong");
+        request.open("GET", "http://localhost:3000/weather");
+        request.send();
+      });
+
+      promise
+        .then((data) => {
+          console.log(data);
+          console.log(promise);
+          document.querySelector("#api-data").innerHTML =
+            data[0].weather[0].description;
+        })
+        .catch((error) => console.log(error));
+      //catch handles erros and is effectively the failure callback
+      // one catch is all that's required even with multiple thenables
+      console.log("Hello from end of script"); //synchronous tasks will always execute first
+    </script>
+  </body>
+</html>

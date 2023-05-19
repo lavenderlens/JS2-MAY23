@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASYNC-3</title>
+  </head>
+  <body>
+    <h1>Async 3</h1>
+    <h2>Fetch</h2>
+    <h3>Al's fave</h3>
+
+    <main id="api-data"></main>
+    <script>
+      // the fetch function makes the HTTP request for us and returns a Promise
+      // fetch will use GET by default
+      // fetch assumes you may have requested a very large amount of data
+      // fetch is only available in Node since v18>
+      fetch("http://localhost:3000/weather")
+        .then((response) => response.json())
+        .then(
+          (data) =>
+            (document.querySelector("#api-data").innerHTML =
+              data[0].weather[0].description)
+        )
+        .catch((error) => console.log(error));
+      //simple, right?
+    </script>
+  </body>
+</html>

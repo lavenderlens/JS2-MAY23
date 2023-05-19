@@ -1,0 +1,38 @@
+VALUES AND REFERENCES
+
+primitive and reference values
+
+primitives are immutable
+
+reference values are mutable by default
+
+many variables may refer to either a single primitive or a single object
+
+the difference comes when another value is referenced
+
+primitives do not change their reference but objects can and do
+
+wrapper classes promote primitives to objects
+
+EQUALITY has FOUR types
+
+== 
+
+=== 
+
+Object.is() NaN is NaN 
+
+same-value EQUALITY (+0 is not -0)
+
+
+STRICT MODE
+
+- errors where there are none in non-STRICT
+- optimistaions
+- reserved keywords
+
+CASE STUDY
+
+- scaffold a managed web app
+- add a bundler (parcel)
+- connect to live weather API
